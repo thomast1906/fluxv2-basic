@@ -10,7 +10,7 @@ FLUX_CONFIG_URL=https://raw.githubusercontent.com/thomast1906/fluxv2-basic/main
 kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/gotk-components.yaml
 
 #Create Flux Sync CRDs
-kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/flux-config-gitrepo.yaml
+kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/fluxv2-basic-gitrepo.yaml
 
 
 #Install kustomize
@@ -30,6 +30,6 @@ EOF
 ) > "script/kustomization.yaml"
 # -----------------------------------------------------------
 
-./kustomize build script |  kubectl apply -f -
+kustomize build script |  kubectl apply -f -
 
 # rm -rf kustomize
