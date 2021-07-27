@@ -5,14 +5,17 @@ set -ex
 CLUSTER_ENV=00
 CLUSTER_FULLNAME=sbox
 FLUX_CONFIG_URL=https://raw.githubusercontent.com/thomast1906/fluxv2-basic/main
+GITHUB_USERNAME=GITHUB_USERNAME
+GITHUB_PASSWORD=GITHUB_PAT_TOKEN
 
 # Install Flux
 kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/gotk-components.yaml
 
-#Create Flux Sync CRDs
+# Create Flux Sync CRDs
 kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/fluxv2-basic-gitrepo.yaml
 
-kubectl -n flux-system create secret generic flux-git-details --from-literal=username=GITHUB_USERNAME --from-literal=password=GITHUB_PAT_TOKEN
+# Create secret credentials for GitHub authorisation (username/password auth)
+kubectl -n flux-system create secret generic flux-git-details --from-literal=username=$GITHUB_USERNAME --from-literal=password=$GITHUB_PASSWORD
 
 #Install kustomize
 curl -s "https://raw.githubusercontent.com/\
