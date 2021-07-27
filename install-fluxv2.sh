@@ -2,8 +2,8 @@
 set -ex
 
 
-CLUSTER_ENV=$1
-CLUSTER_FULLNAME=$2
+CLUSTER_ENV=00
+CLUSTER_FULLNAME=sbox
 FLUX_CONFIG_URL=https://raw.githubusercontent.com/thomast1906/fluxv2-basic/main
 
 # Install Flux
@@ -16,8 +16,6 @@ kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/flux-config-gitrepo.ya
 #Install kustomize
 curl -s "https://raw.githubusercontent.com/\
 kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-TMP_DIR=/tmp/flux/${ENV}/${CLUSTER_NAME}
-mkdir -p $TMP_DIR
 # -----------------------------------------------------------
 (
 cat <<EOF
@@ -27,11 +25,11 @@ namespace: flux-system
 resources:
     - ${FLUX_CONFIG_URL}/apps/flux-system/base/kustomize.yaml
 patchesStrategicMerge:
-  - ${FLUX_CONFIG_URL}/apps/flux-system/${ENV}/${CLUSTER_NAME}/kustomize.yaml
+  - ${FLUX_CONFIG_URL}/apps/flux-system/${CLUSTER_FULLNAME}/${CLUSTER_ENV}/kustomize.yaml
 EOF
-) > "${TMP_DIR}/kustomization.yaml"
+) > "script/kustomization.yaml"
 # -----------------------------------------------------------
 
-./kustomize build ${TMP_DIR} |  kubectl apply -f -
+./kustomize build script |  kubectl apply -f -
 
-rm -rf kustomize
+# rm -rf kustomize
