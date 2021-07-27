@@ -16,3 +16,4 @@ spec:
     substitute:
       NAMESPACE: "deployapp"
       CLUSTER_FULL_NAME: "${ENVIRONMENT}-${CLUSTER}"
+      
