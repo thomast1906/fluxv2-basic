@@ -12,10 +12,13 @@ kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/gotk-components.yaml
 #Create Flux Sync CRDs
 kubectl apply -f ${FLUX_CONFIG_URL}/apps/flux-system/base/fluxv2-basic-gitrepo.yaml
 
+kubectl -n flux-system create secret generic flux-git-details --from-literal=username=GITHUB_USERNAME --from-literal=password=GITHUB_PAT_TOKEN
 
 #Install kustomize
 curl -s "https://raw.githubusercontent.com/\
 kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+TMP_DIR=/tmp/flux/${CLUSTER_FULLNAME}/${CLUSTER_ENV}
+mkdir -p $TMP_DIR
 # -----------------------------------------------------------
 (
 cat <<EOF
@@ -27,9 +30,9 @@ resources:
 patchesStrategicMerge:
   - ${FLUX_CONFIG_URL}/apps/flux-system/${CLUSTER_FULLNAME}/${CLUSTER_ENV}/kustomize.yaml
 EOF
-) > "script/kustomization.yaml"
+) > "${TMP_DIR}/kustomization.yaml"
 # -----------------------------------------------------------
 
-kustomize build script |  kubectl apply -f -
+kustomize build ${TMP_DIR} |  kubectl apply -f -
 
-# rm -rf kustomize
+rm -rf kustomize

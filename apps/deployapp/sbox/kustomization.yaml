@@ -4,4 +4,4 @@ resources:
   - ../../base
   - ../app/app-repo.yaml
   - ../app/kustomization.yaml
-namespace: deployapp
+namespace: default
