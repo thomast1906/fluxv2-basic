@@ -9,6 +9,6 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: fluxv2-basic
+    name: flux-config
   validation: client
   path: ./clusters/${ENVIRONMENT}/${CLUSTER}
