@@ -1,14 +1,14 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
+apiVersion: v1
+kind: Pod
 metadata:
-  name: podinfo
-  namespace: flux-system
+  name: helloworld
+  labels:
+    env: production
+    author: karthequian
+    application_type: ui
+    release-version: "1.0"
 spec:
-  interval: 5m0s
-  path: ./kustomize
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: podinfo
-  validation: client
+  containers:
+  - name: helloworld
+    image: karthequian/helloworld:latest
