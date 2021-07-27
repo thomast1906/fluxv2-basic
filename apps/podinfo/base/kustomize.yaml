@@ -8,7 +8,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-config
+    name: fluxv2-basic
     namespace: flux-system
   validation: none
   path: ./apps/podinfo/${ENVIRONMENT}
